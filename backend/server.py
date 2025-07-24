@@ -13,7 +13,7 @@ from datetime import datetime
 import asyncio
 import tempfile
 import json
-from emergentintegrations.llm.chat import LlmChat, UserMessage, FileContentWithMimeType
+from emergentintegrations.llm.chat import LlmChat, UserMessage
 import PyPDF2
 import docx
 import io
