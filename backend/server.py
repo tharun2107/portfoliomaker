@@ -16,6 +16,7 @@ import json
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 import PyPDF2
 import docx
+import pdfplumber
 import io
 
 ROOT_DIR = Path(__file__).parent
