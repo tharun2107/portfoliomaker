@@ -251,20 +251,30 @@ async def parse_resume(file: UploadFile = File(...)):
     """Parse uploaded resume using Gemini API"""
     try:
         # Validate file type
-        if not file.filename.lower().endswith(('.pdf', '.docx')):
+        if not file.filename:
+            raise HTTPException(status_code=400, detail="No filename provided")
+            
+        file_ext = file.filename.lower().split('.')[-1]
+        if file_ext not in ['pdf', 'docx']:
             raise HTTPException(status_code=400, detail="Only PDF and DOCX files are supported")
         
         # Read file content
         file_content = await file.read()
         
+        if len(file_content) == 0:
+            raise HTTPException(status_code=400, detail="File is empty")
+        
         # Extract text based on file type
-        if file.filename.lower().endswith('.pdf'):
+        if file_ext == 'pdf':
             resume_text = extract_text_from_pdf(file_content)
         else:
             resume_text = extract_text_from_docx(file_content)
         
         if not resume_text.strip():
-            raise HTTPException(status_code=400, detail="Could not extract text from the file")
+            raise HTTPException(status_code=400, detail="Could not extract text from the file. Please ensure the file contains readable text.")
+        
+        logging.info(f"Extracted text length: {len(resume_text)} characters")
+        logging.info(f"First 200 chars: {resume_text[:200]}")
         
         # Parse with Gemini
         parsed_data = await parse_resume_with_gemini(resume_text)
@@ -272,7 +282,8 @@ async def parse_resume(file: UploadFile = File(...)):
         return {
             "success": True,
             "parsed_data": parsed_data.dict(),
-            "message": "Resume parsed successfully"
+            "message": "Resume parsed successfully",
+            "extracted_text_length": len(resume_text)
         }
         
     except HTTPException:
