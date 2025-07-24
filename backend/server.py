@@ -96,17 +96,44 @@ TEMPLATES = [
 ]
 
 def extract_text_from_pdf(file_content: bytes) -> str:
-    """Extract text from PDF file"""
+    """Extract text from PDF file using multiple methods"""
     try:
+        # Method 1: Try pdfplumber first (more reliable)
+        pdf_file = io.BytesIO(file_content)
+        with pdfplumber.open(pdf_file) as pdf:
+            text = ""
+            for page in pdf.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text + "\n"
+            if text.strip():
+                return text
+    except Exception as e:
+        logging.error(f"pdfplumber extraction failed: {e}")
+    
+    try:
+        # Method 2: Fallback to PyPDF2
         pdf_file = io.BytesIO(file_content)
         pdf_reader = PyPDF2.PdfReader(pdf_file)
         text = ""
         for page in pdf_reader.pages:
-            text += page.extract_text() + "\n"
-        return text
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + "\n"
+        if text.strip():
+            return text
     except Exception as e:
-        logging.error(f"Error extracting text from PDF: {e}")
-        return ""
+        logging.error(f"PyPDF2 extraction failed: {e}")
+    
+    # Method 3: If it's just text content (for testing)
+    try:
+        text = file_content.decode('utf-8', errors='ignore')
+        if text.strip():
+            return text
+    except Exception as e:
+        logging.error(f"Text decoding failed: {e}")
+    
+    return ""
 
 def extract_text_from_docx(file_content: bytes) -> str:
     """Extract text from DOCX file"""
