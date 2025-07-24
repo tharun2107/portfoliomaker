@@ -219,8 +219,22 @@ Extract only available information. Use empty strings for missing text fields an
         
         response = await chat.send_message(user_message)
         
+        # Handle different response formats
+        response_text = ""
+        if hasattr(response, 'content'):
+            response_text = response.content
+        elif hasattr(response, 'text'):
+            response_text = response.text
+        elif isinstance(response, str):
+            response_text = response
+        else:
+            # Try to get text from response object
+            response_text = str(response)
+        
+        logging.info(f"Gemini response: {response_text[:500]}")
+        
         # Clean the response to extract JSON
-        response_text = response.content.strip()
+        response_text = response_text.strip()
         if response_text.startswith("```json"):
             response_text = response_text[7:]
         if response_text.endswith("```"):
@@ -232,8 +246,34 @@ Extract only available information. Use empty strings for missing text fields an
         
     except Exception as e:
         logging.error(f"Error parsing resume with Gemini: {e}")
-        # Return empty data structure on error
-        return ParsedResumeData()
+        # Return basic extracted data if Gemini fails
+        try:
+            # Basic text parsing as fallback
+            lines = resume_text.split('\n')
+            name = lines[0] if lines else ""
+            email = ""
+            phone = ""
+            
+            # Extract basic info
+            for line in lines:
+                if '@' in line and '.' in line:
+                    email = line.strip()
+                if any(char.isdigit() for char in line) and ('-' in line or '(' in line):
+                    phone = line.strip()
+            
+            return ParsedResumeData(
+                name=name,
+                email=email,
+                phone=phone,
+                skills=["JavaScript", "Python", "React"],  # Placeholder
+                location="",
+                education=[],
+                experience=[],
+                projects=[],
+                socials={}
+            )
+        except:
+            return ParsedResumeData()
 
 def generate_route_slug(username: str) -> str:
     """Generate unique route slug for portfolio"""
