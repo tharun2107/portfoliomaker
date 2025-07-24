@@ -70,28 +70,28 @@ class Template(BaseModel):
 # Templates data
 TEMPLATES = [
     {
-        "id": "modern",
-        "name": "Modern Professional",
-        "preview_image": "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=400&h=300&fit=crop",
-        "description": "Clean, modern design perfect for tech professionals"
+        "id": "solarverse",
+        "name": "🌌 SolarVerse",
+        "preview_image": "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=400&h=300&fit=crop",
+        "description": "3D Solar System Portfolio - Interactive planets with Three.js and immersive storytelling"
     },
     {
-        "id": "creative",
-        "name": "Creative Portfolio",
-        "preview_image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-        "description": "Vibrant and creative layout for designers and artists"
+        "id": "neongrid",
+        "name": "🔮 NeonGrid",
+        "preview_image": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=300&fit=crop",
+        "description": "Neon Grid with Framer Motion - Glassmorphism effects and stunning animations"
     },
     {
-        "id": "minimal",
-        "name": "Minimal Elite",
-        "preview_image": "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop",
-        "description": "Minimalist design that focuses on content"
+        "id": "proclassic",
+        "name": "🧑‍💼 ProClassic",
+        "preview_image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+        "description": "Corporate & Business Ready - Minimalistic, professional, recruiter-friendly"
     },
     {
-        "id": "corporate",
-        "name": "Corporate Pro",
-        "preview_image": "https://images.unsplash.com/photo-1664382953403-38ba9a1c566d?w=400&h=300&fit=crop",
-        "description": "Professional corporate style for business professionals"
+        "id": "infinityflow",
+        "name": "🌈 Infinity Flow",
+        "preview_image": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=300&fit=crop",
+        "description": "Futuristic Scroll-Based Showcase - Infinite scroll with scroll-driven animations"
     }
 ]
 
