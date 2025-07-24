@@ -217,23 +217,39 @@ const Home = () => {
           {currentStep === 3 && (
             <div>
               <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Choose Your Template</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                 {templates.map((template) => (
                   <div
                     key={template.id}
-                    className={`bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer transform transition-transform hover:scale-105 ${
-                      selectedTemplate?.id === template.id ? 'ring-4 ring-blue-500' : ''
+                    className={`bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl ${
+                      selectedTemplate?.id === template.id ? 'ring-4 ring-blue-500 shadow-2xl' : ''
                     }`}
                     onClick={() => handleTemplateSelect(template)}
                   >
-                    <img
-                      src={template.preview_image}
-                      alt={template.name}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="p-4">
-                      <h3 className="text-lg font-semibold text-gray-800 mb-2">{template.name}</h3>
-                      <p className="text-gray-600 text-sm">{template.description}</p>
+                    <div className="relative">
+                      <img
+                        src={template.preview_image}
+                        alt={template.name}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <h3 className="text-xl font-bold text-white mb-2">{template.name}</h3>
+                        <p className="text-gray-200 text-sm">{template.description}</p>
+                      </div>
+                    </div>
+                    <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-600">
+                          {template.id === 'solarverse' && '🌌 3D Interactive'}
+                          {template.id === 'neongrid' && '🔮 Neon Animations'}
+                          {template.id === 'proclassic' && '🧑‍💼 Professional'}
+                          {template.id === 'infinityflow' && '🌈 Scroll Magic'}
+                        </span>
+                        {selectedTemplate?.id === template.id && (
+                          <span className="text-blue-600 font-semibold">✓ Selected</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
